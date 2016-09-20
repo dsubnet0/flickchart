@@ -16,22 +16,19 @@ while (<FILE>) {
   my @line = split ',';
   my $title =  $line[1]; 
   $title =~ s/ /\+/g;
-  say "$title,".getRank($title);
+  print "$title,".getRank($title);
 }
+
 
 sub getRank {
   my $title = shift;
   my $url = "www.flickchart.com".getUrl($title);
-  say "URL: $url";
   my $result = `curl -s $url|grep '<meta id="ctl00_ctl00_head_head_movieMetaDescription"'|awk -F '#' '{print \$2}'|awk '{print \$1}'`;
-  say "RANK=$result";
-  exit;
-
+  return $result;
 }
 
 sub getUrl {
   my $title = shift;
-  say "TITLE = $title";
   my $result = `curl -s www.flickchart.com/searchResults.aspx?s=$title|grep '<a href="/movie/'`;
   my @result = split('\n',$result);
   my $line = $result[0];
