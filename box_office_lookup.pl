@@ -23,8 +23,8 @@ sub getRank {
   my $title = shift;
   my $url = "www.flickchart.com".getUrl($title);
   say "URL: $url";
-  my $result = `curl $url|grep '<meta id="ctl00_ctl00_head_head_movieMetaDescription"'`;
-  my @result = split('\#', $result);
+  my $result = `curl -s $url|grep '<meta id="ctl00_ctl00_head_head_movieMetaDescription"'|awk -F '#' '{print \$2}'|awk '{print \$1}'`;
+  say "RANK=$result";
   exit;
 
 }
