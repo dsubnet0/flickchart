@@ -12,10 +12,11 @@ open FILE, $file;
 my $i=0;
 while (<FILE>) {
   next unless $i++;
-  #print "LINE: ".$_; 
   my @line = split ',';
   my $title =  $line[1]; 
   $title =~ s/ /\+/g;
+  $title =~ s/,//g;
+  $title =~ s/\'//g;
   print "$title,".getRank($title);
 }
 
